@@ -1,0 +1,15 @@
+Frogger 
+
+  
+Der Bildschirm zeigt 15 Linien an und ist 20 Blöcke breit.
+Es gibt nach 5 bis 10 Reihen einen Sicherheitsabschnitt.
+Ein Tier, das sich über den Bildschirm vertikal über die Linien bewegt,
+kann mit bewegten Objekten zusammenstoßen oder auf ihnen stehen,
+um nicht mit dem umliegendem Bereich zusammenstoßen.
+Das Bild bewegt sich um drei Reihe nach unten,
+wenn das Tier auf der Mitte ist. Man hat eine Vogelsicht auf alles.
+Das Tier kann nicht weiter als der Rand zu Ende ist gehen.
+Außerdem kann das Tier nicht wieder zurückgehen und nur nach vorne/oben.
+Dazu gibt es einen Zähler für pro erreichte Linie.
+Wenn der Boden oder ein bewegtes Objekt berührt ist,
+ist das Spiel vorbei und der Spielstand wird angezeigt.
