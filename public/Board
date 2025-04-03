@@ -40,7 +40,7 @@ public class Board extends JPanel implements ActionListener {
     private int pacAnimCount = PAC_ANIM_DELAY;
     private int pacAnimDir = 1;
     private int pacmanAnimPos = 0;
-    private int N_GHOSTS = 6;
+    private int N_GHOSTS = 30;
     private int pacsLeft, score;
     private int[] dx, dy;
     private int[] ghost_x, ghost_y, ghost_dx, ghost_dy, ghostSpeed;
@@ -225,7 +225,6 @@ public class Board extends JPanel implements ActionListener {
         int pos;
         int count;
 
-        for (i = 0; i < N_GHOSTS; i++) {
             for (i = 0; i < N_GHOSTS; i++) {
                 if (ghost_x[i] % BLOCK_SIZE == 0 && ghost_y[i] % BLOCK_SIZE == 0) {
                     pos = ghost_x[i] / BLOCK_SIZE + N_BLOCKS * (int) (ghost_y[i] / BLOCK_SIZE);
@@ -265,7 +264,6 @@ public class Board extends JPanel implements ActionListener {
                 dying = true;
             }
             */
-        }
     }
 
     private void drawGhost(Graphics2D g2d, int x, int y) {
