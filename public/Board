@@ -19,7 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class Main extends JPanel implements ActionListener {
+public class Board extends JPanel implements ActionListener {
 
     private Dimension d;
     private final Font smallFont = new Font("Helvetica", Font.BOLD, 14);
@@ -80,14 +80,14 @@ public class Main extends JPanel implements ActionListener {
     private short[] screenData;
     private Timer timer;
 
-    public Main() {
+    public Board() {
 
         loadImages();
         initVariables();
-        initMain();
+        initBoard();
     }
     
-    private void initMain() {
+    private void initBoard() {
         
         addKeyListener(new TAdapter());
 
@@ -228,62 +228,37 @@ public class Main extends JPanel implements ActionListener {
         int count;
 
         for (i = 0; i < N_GHOSTS; i++) {
-            if (ghost_x[i] % BLOCK_SIZE == 0 && ghost_y[i] % BLOCK_SIZE == 0) {
-                pos = ghost_x[i] / BLOCK_SIZE + N_BLOCKS * (int) (ghost_y[i] / BLOCK_SIZE);
-
-                count = 0;
-
-                if ((screenData[pos] & 1) == 0 && ghost_dx[i] != 1) {
-                    dx[count] = -1;
-                    dy[count] = 0;
-                    count++;
-                }
-
-                if ((screenData[pos] & 2) == 0 && ghost_dy[i] != 1) {
-                    dx[count] = 0;
-                    dy[count] = -1;
-                    count++;
-                }
-
-                if ((screenData[pos] & 4) == 0 && ghost_dx[i] != -1) {
-                    dx[count] = 1;
-                    dy[count] = 0;
-                    count++;
-                }
-
-                if ((screenData[pos] & 8) == 0 && ghost_dy[i] != -1) {
-                    dx[count] = 0;
-                    dy[count] = 1;
-                    count++;
-                }
-
-                if (count == 0) {
-
-                    if ((screenData[pos] & 15) == 15) {
-                        ghost_dx[i] = 0;
-                        ghost_dy[i] = 0;
-                    } else {
-                        ghost_dx[i] = -ghost_dx[i];
-                        ghost_dy[i] = -ghost_dy[i];
+            for (i = 0; i < N_GHOSTS; i++) {
+                if (ghost_x[i] % BLOCK_SIZE == 0 && ghost_y[i] % BLOCK_SIZE == 0) {
+                    pos = ghost_x[i] / BLOCK_SIZE + N_BLOCKS * (int) (ghost_y[i] / BLOCK_SIZE);
+            
+                    count = 0;
+            
+                    // Bewege den Geist nach links, wenn es keinen Block links gibt und er nicht bereits nach rechts geht
+                    if ((screenData[pos] & 1) == 0 && ghost_dx[i] != 1) {
+                        dx[count] = -1;
+                        dy[count] = 0;  // Nur horizontale Bewegung
+                        count++;
                     }
-
-                } else {
-
-                    count = (int) (Math.random() * count);
-
-                    if (count > 3) {
-                        count = 3;
+            
+                    // Bewege den Geist nach rechts, wenn es keinen Block rechts gibt und er nicht bereits nach links geht
+                    if ((screenData[pos] & 4) == 0 && ghost_dx[i] != -1) {
+                        dx[count] = 1;
+                        dy[count] = 0;  // Nur horizontale Bewegung
+                        count++;
                     }
-
-                    ghost_dx[i] = dx[count];
-                    ghost_dy[i] = dy[count];
+            
+                    
                 }
-
+            
+                // Aktualisiere die Position des Geistes in horizontaler Richtung (nur x-Achse wird verändert)
+                ghost_x[i] = ghost_x[i] + (ghost_dx[i] * ghostSpeed[i]);
+                ghost_y[i] = ghost_y[i] + (ghost_dy[i] * ghostSpeed[i]);
+            
+                // Zeichne den Geist
+                drawGhost(g2d, ghost_x[i] + 1, ghost_y[i] + 1);
             }
-
-            ghost_x[i] = ghost_x[i] + (ghost_dx[i] * ghostSpeed[i]);
-            ghost_y[i] = ghost_y[i] + (ghost_dy[i] * ghostSpeed[i]);
-            drawGhost(g2d, ghost_x[i] + 1, ghost_y[i] + 1);
+            
             /* 
             if (pacman_x > (ghost_x[i] - 12) && pacman_x < (ghost_x[i] + 12)
                     && pacman_y > (ghost_y[i] - 12) && pacman_y < (ghost_y[i] + 12)
@@ -625,4 +600,6 @@ public class Main extends JPanel implements ActionListener {
 
         repaint();
     }
+
+    
 }
