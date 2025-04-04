@@ -1,4 +1,4 @@
-package com.zetcode;
+
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -473,7 +473,7 @@ public class Board extends JPanel implements ActionListener {
             ghost_dy[i] = 0;
             ghost_dx[i] = dx;
             dx = -dx;
-            random = (int) (Math.random() * (currentSpeed + 1));
+            random = (int) (currentSpeed + 1));
 
             if (random > currentSpeed) {
                 random = currentSpeed;
