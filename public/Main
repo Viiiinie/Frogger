@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class CrossyRoadGame extends JFrame {
+public class Main extends JFrame {
 
     // Spielfigur
     private int playerX = 200;
@@ -19,7 +19,7 @@ public class CrossyRoadGame extends JFrame {
     // Timer für das Spielupdate
     private Timer gameTimer;
 
-    public CrossyRoadGame() {
+    public Main() {
         // Fenster-Einstellungen
         setTitle("Crossy Road");
         setSize(400, 500);
@@ -83,7 +83,7 @@ public class CrossyRoadGame extends JFrame {
     public static void main(String[] args) {
         // Spiel starten
         SwingUtilities.invokeLater(() -> {
-            CrossyRoadGame game = new CrossyRoadGame();
+            Main game = new Main();
             game.setVisible(true);
         });
     }
