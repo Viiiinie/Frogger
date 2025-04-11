@@ -1,0 +1,33 @@
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+
+public class Pacman extends JFrame {
+
+    public Pacman() {
+
+        initUI();
+    }
+
+    private void initUI() {
+
+        add(new Board());
+
+        setTitle("Frogger");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(1000, 1000);
+        setLocationRelativeTo(null);
+    }
+
+
+
+    public static void main(String[] args) {
+
+        EventQueue.invokeLater(() -> {
+
+            var hatMap = new Map();
+            var hatEreignis = new Ereignisanwendung();
+            hatMap.setVisible(true);
+            hatEreignis.setVisible(true);
+        });
+    }
+}
