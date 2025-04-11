@@ -1,33 +1,90 @@
-import java.awt.EventQueue;
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
-public class Pacman extends JFrame {
+public class CrossyRoadGame extends JFrame {
 
-    public Pacman() {
+    // Spielfigur
+    private int playerX = 200;
+    private int playerY = 400;
+    private final int playerSize = 30;
 
-        initUI();
+    // Hindernisse
+    private int obstacleY = -30;  // Position des Hindernisses
+    private final int obstacleSpeed = 5;
+
+    // Timer für das Spielupdate
+    private Timer gameTimer;
+
+    public CrossyRoadGame() {
+        // Fenster-Einstellungen
+        setTitle("Crossy Road");
+        setSize(400, 500);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null); // Fenster in der Mitte des Bildschirms
+        setResizable(false);
+
+        // KeyListener für die Steuerung der Spielfigur
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                    if (playerX > 0) playerX -= 10; // Bewegung nach links
+                } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                    if (playerX < getWidth() - playerSize) playerX += 10; // Bewegung nach rechts
+                } else if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    if (playerY > 0) playerY -= 10; // Bewegung nach oben
+                } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    if (playerY < getHeight() - playerSize) playerY += 10; // Bewegung nach unten
+                }
+            }
+        });
+
+        // Timer für die Spielaktualisierung (Hindernisbewegung, Spielanzeige)
+        gameTimer = new Timer(20, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Hindernis bewegen
+                obstacleY += obstacleSpeed;
+                if (obstacleY > getHeight()) {
+                    obstacleY = -30; // Hindernis oben wieder erscheinen lassen
+                }
+
+                // Überprüfen, ob das Hindernis die Spielfigur getroffen hat
+                if (new Rectangle(playerX, playerY, playerSize, playerSize)
+                        .intersects(new Rectangle(150, obstacleY, 100, 30))) {
+                    // Wenn es eine Kollision gibt, beende das Spiel
+                    gameTimer.stop();
+                    JOptionPane.showMessageDialog(null, "Game Over!");
+                }
+
+                repaint(); // Spielfeld neu zeichnen
+            }
+        });
+        gameTimer.start(); // Timer starten
     }
 
-    private void initUI() {
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
 
-        add(new Board());
+        // Spielfigur zeichnen
+        g.setColor(Color.BLUE);
+        g.fillRect(playerX, playerY, playerSize, playerSize);
 
-        setTitle("Frogger");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(1000, 1000);
-        setLocationRelativeTo(null);
+        // Hindernis zeichnen
+        g.setColor(Color.RED);
+        g.fillRect(150, obstacleY, 100, 30);
     }
-
-
 
     public static void main(String[] args) {
-
-        EventQueue.invokeLater(() -> {
-
-            var hatMap = new Map();
-            var hatEreignis = new Ereignisanwendung();
-            hatMap.setVisible(true);
-            hatEreignis.setVisible(true);
+        // Spiel starten
+        SwingUtilities.invokeLater(() -> {
+            CrossyRoadGame game = new CrossyRoadGame();
+            game.setVisible(true);
         });
     }
 }
